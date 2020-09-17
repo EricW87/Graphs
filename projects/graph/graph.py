@@ -125,7 +125,7 @@ class Graph:
                     stack.append(newPath)
 
         paths.sort(key=lambda e:len(e))
-        return paths
+        return paths[0]
 
     def dfs_recursive(self, starting_vertex, destination_vertex):
         """
@@ -153,7 +153,7 @@ class Graph:
                     
         recusive_search([starting_vertex])
         paths.sort(key=lambda e:len(e))
-        return paths
+        return paths[0]
 
 
 if __name__ == '__main__':
