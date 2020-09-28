@@ -75,7 +75,7 @@ prev_id = -1
 prev_d = ''
 
 while len(edges) < len(room_graph):
-    print(edges)
+    print(len(traversal_path))
     if player.current_room.id not in edges:
         edges[player.current_room.id] = {}
         for e in player.current_room.get_exits():
