@@ -70,14 +70,18 @@ def bfs_goback(room_id, edges):
                     newPath.append(neighbor)
                     queue.append(newPath)
 
+        #print(room_id, edges)
+        return -1 #this is very bad
+
 edges = {} #adjacency dictionary
 prev_id = -1
 prev_d = ''
 
+
 while len(edges) < len(room_graph):
-    print(len(traversal_path))
     if player.current_room.id not in edges:
         edges[player.current_room.id] = {}
+
         for e in player.current_room.get_exits():
             edges[player.current_room.id][e] = '?'
 
@@ -85,23 +89,30 @@ while len(edges) < len(room_graph):
         edges[prev_id][prev_d] = player.current_room.id
         edges[player.current_room.id][opp_dir(prev_d)] = prev_id
 
-    found = False
-    for e in list(edges[player.current_room.id].keys()):
-        if edges[player.current_room.id][e] == '?' and found == False:
-            traversal_path.append(e)
-            prev_id = player.current_room.id
-            prev_d = e
-            player.travel(e)
-            found = True
-            break
+    if len(edges) == len(room_graph):
+        break
 
-    if found == False:
+    found = False
+    directions = []
+    for e in list(edges[player.current_room.id].keys()):
+        if edges[player.current_room.id][e] == '?':
+            directions += e
+
+    if len(directions) > 0:
+        e = random.choice(directions)
+        prev_id = player.current_room.id
+        prev_d = e
+        player.travel(e)
+        traversal_path.append(e)
+        found = True
+    else:
         path = bfs_goback(player.current_room.id, edges)
         #print(path, player.current_room.id)
         for m in path:
             if m[1] >= 'a' and m[1] <= 'z':
                 #print(m[1])
                 player.travel(m[1])
+                traversal_path.append(m[1])
         #print(player.current_room.id)
         prev_id = -1 #We shouldn't need to add anything to the dictionary
 """
